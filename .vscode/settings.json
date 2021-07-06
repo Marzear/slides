@@ -1,4 +1,7 @@
 {
     "pasteImage.path": "${currentFileDir}/attachments",
     "pasteImage.basePath": "${currentFileDir}",
+    "cSpell.words": [
+        "mytheme"
+    ],
 }
