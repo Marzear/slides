@@ -6,7 +6,7 @@ theme: theme/mytheme.css
 external_link: ""
 ---
 
-# Progress Report = 20210707 <!-- .element: class="title" -->
+# Progress Report - 20210707 <!-- .element: class="title" -->
 ##  <!-- .element: class="subtitle" -->
 
 <div class="title-name">
