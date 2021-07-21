@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20210721</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Progress Report - 20210721 <!-- .element: class="title" -->
+##  <!-- .element: class="subtitle" -->
+
+<div class="title-name">
+2021.07.21 <br>
+Yu-Hung, Wu
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- GPT2-ChitChat model
+    - Learn from scratch
+    - Learn from pretrained
+- The handover of Data2Text project
+</script></section><section ><section data-markdown><script type="text/template">
+## GPT2-ChitChat model  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Some Improvements
+
+1. Specify the token_type_ids
+    - For example, if the original data is 
+        ```
+        聽你說
+        我們同時擁有
+        一片美好的天空
+        ```
+    - The input will be 
+        ```
+        [CLS]聽你說[SEP]我們同時擁有[SEP]一片美好的天空[SEP]
+        ```
+    - The token type ids are
+        ```
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, .....]
+        ```
+    - My conjecture: Learn from scratch will work.
+</script></section><section data-markdown><script type="text/template">
+## Some Improvements
+
+2. Rewrite the code of batch-padding
+
+3. (TODO) recalculate the loss function
+</script></section><section data-markdown><script type="text/template">
+## Datasets
+
+- Dataset size
+    1. Learn from scratch: 1000K multi-turn dialogs
+    2. Learn from pretrained: 500K multi-turn dialogs
+- Use opencc to transform
+- Pretrained model = "ckiplab/gpt2-base-chinese"
+
+</script></section><section data-markdown><script type="text/template">
+## Sample response
+
+Learn from pretrained, epoch 1 (still training...)
+
+```
+user:早安
+chatbot:早上好
+user:疫情結束了，我終於可以聚餐了
+chatbot:不過我也好想
+user:一起來呀
+chatbot:我們可以一起來
+user:最近好難過喔
+chatbot:你在哪裡上班啊
+user:中研院           
+chatbot:我也是
+user:哈哈哈哈
+chatbot:哈哈哈哈哈
+user:很幽默喔
+chatbot:你這個表情
+```
+</script></section><section data-markdown><script type="text/template">
+## Sample response.
+
+Learn from scratch, epoch 18
+
+```
+user:早安啊
+chatbot:早安
+user:上次去爬山差點摔倒 
+chatbot:沒摔過，我去的時候沒有摔倒。
+user:乾我什麼事
+chatbot:那麼多人啊，我去的地方是人，沒有摔倒
+user:我一個禮拜瘦一點五公斤
+chatbot:不會瘦的
+user:很幽默喔
+chatbot:我瘦啦
+user:再見
+chatbot:不見
+```</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":true}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
