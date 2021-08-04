@@ -1,5 +1,9 @@
-{"scripts": {
-  "start": "reveal-md content/ -w",
-  "build": "rm -rf docs && reveal-md content/ --static docs --static-dirs=content/attachments && touch docs/.nojekyll"
-}
+{
+  "scripts": {
+    "start": "reveal-md content/ -w",
+    "build": "rm -rf docs && reveal-md content/ --static docs --static-dirs=content/attachments && touch docs/.nojekyll"
+  },
+  "dependencies": {
+    "reveal.js": "^4.1.3"
+  }
 }
