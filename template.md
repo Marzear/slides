@@ -1,16 +1,16 @@
 ---
-title: 'Progress Report - 20210707'
+title: 'Progress Report - [DATE]'
 # titie: 'Seminar - '
-date: "2021-07-07"
+date: "2021-[DATE]"
 theme: theme/mytheme.css
 external_link: ""
 ---
 
-# Progress Report - 20210707 <!-- .element: class="title" -->
+# Progress Report - 2021[DATE] <!-- .element: class="title" -->
 ##  <!-- .element: class="subtitle" -->
 
 <div class="title-name">
-2021.07.07 <br>
+2021.[DATE] <br>
 Yu-Hung, Wu
 </div>
 
