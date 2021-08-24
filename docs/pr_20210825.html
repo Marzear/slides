@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20210825</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Progress Report - 20210825 <!-- .element: class="title" -->
+##  <!-- .element: class="subtitle" -->
+
+<div class="title-name">
+2021.08.25 <br>
+Yu-Hung, Wu
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- MMI model experiments
+- The PERSONA-CHAT dataset
+- 
+</script></section><section ><section data-markdown><script type="text/template">
+## MMI model experiments  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## w/o the MMI model (#9 epoch)
+
+![](attachments/2021-08-24-17-21-53.png) <!-- .element: class="img45" -->
+</script></section><section data-markdown><script type="text/template">
+## w/ the MMI model (#9 epoch, lowest perplexity)
+
+```
+user:你好
+chatbot:你好！
+user:晚餐吃什麼
+chatbot:哈哈哈哈哈哈，好久沒吃了，還在想
+user:但我不想吃
+chatbot:那你就是想吃了，我也是
+user:週末去看海
+chatbot:你們週末不是要上班嗎，週末不去啊
+user:再一起去划船
+chatbot:那你要提前告訴我，我們週一要去
+```
+</script></section><section data-markdown><script type="text/template">
+## w/ the MMI model (#20 epoch, lowest training loss)
+
+```
+user:你好
+chatbot:你好，我是新浪的
+user:晚餐吃什麼
+chatbot:這個就不知道了哈哈哈
+user:但我不想吃
+chatbot:那就不吃，我要去做，哈哈哈哈
+user:週末去看海
+chatbot:哈哈哈哈你不上班啊？
+user:再一起去划船
+chatbot:哈哈哈哈哈我也想啊
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+## The PERSONA-CHAT dataset   <!-- .element: class="section-title" -->
+
+https://parl.ai/ <!-- .element: class="footnote" -->
+</script></section><section data-markdown><script type="text/template">
+## Example Dialogue
+
+| A's persona | B's persona |
+| :--------: | :--------: |  
+|I like to ski | I am an artist|
+|My wife does not like me anymore | I have four children|
+|I have went to Mexico 4 times this year | I recently got a cat|
+|I hate Mexican food | I enjoy walking for exercise|
+|I like to eat cheetos | I love watching Game of Thrones|
+
+</script></section><section data-markdown><script type="text/template">
+## Example Dialogue.
+
+```txt
+A: Hi
+B: Hello ! How are you today?
+A: I am good thank you , how are you.
+B: Great, thanks ! My children and I were just about to watch Game of Thrones.
+A: Nice ! How old are your children?
+B: I have four that range in age from 10 to 21. You?
+A: I do not have children at the moment.
+B: That just means you get to keep all the popcorn for yourself.
+A: And Cheetos at the moment!
+B: Good choice. Do you watch Game of Thrones?
+A: No, I do not have much time for TV.
+B: I usually spend my time painting: but, I love the show.
+```
+</script></section><section data-markdown><script type="text/template">
+## Statistics
+
+- 8939 training dialogs, 1000 valid dialogs, 968 testing dialogs
+- 4-5 personas for both turkers in each dialog
+- maximum of 15 words for each utterance
+- Still preprocessing</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":true,"pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
