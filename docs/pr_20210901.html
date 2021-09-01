@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20210901</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Mini Progress Report - 20210901 <!-- .element: class="title" -->
+## Using Utterances with Top MMI Scores for Response<!-- .element: class="subtitle" -->
+
+<div class="title-name">
+2021.09.01 <br>
+Yu-Hung, Wu
+</div>
+
+
+Available on "GPTOhtani" Linebot<!-- .element: class="footnote" -->
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- Method
+- Results
+- Linebot
+</script></section><section ><section data-markdown><script type="text/template">
+## Method  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Select Top N MMI Dialogs
+
+- Dialogs with *extremely* low MMI loss are sometimes outliers, so I didn't use the first 10000 dialogs
+- Instead, I chose No.50000~60000 dialogs for valid responses.
+- There are about 40000 utterances for total
+</script></section><section data-markdown><script type="text/template">
+## Build the tree
+
+- Using linked list to build a tree, each path represents an utterance
+![](attachments/2021-09-01-14-22-03.png) <!-- .element: class="img90" -->
+</script></section><section data-markdown><script type="text/template">
+## Prediction
+
+- For the output logits of the GPT-2 + transformer model, the length is the voabulary size
+- Except for the children of the current node, other words in the output logits are masked (thus can't be predicted)
+- So, the response must be one of the paths in the tree.
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Results  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Example Dialogue 1
+
+```
+user:明天去爬山
+chatbot:不敢去，怕捱揍
+user:不要怕我保護你
+chatbot:你就算啦
+user:那晚上要吃什麼
+chatbot:我要吃糖
+user:一起吃嗎
+chatbot:好啊好啊
+```
+</script></section><section data-markdown><script type="text/template">
+## Example Dialogue 2
+
+![](attachments/2021-09-01-14-33-08.png) <!-- .element: class="img30" -->
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Linebot <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## The Model is Available on Linebot (Top MMI Responses)
+
+![](attachments/2021-09-01-14-33-30.png) <!-- .element: class="img30" --></script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":true,"pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
