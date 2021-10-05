@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20211006</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Progress Report - 20211006 <!-- .element: class="title" -->
+##  <!-- .element: class="subtitle" -->
+
+<div class="title-name">
+2021.10.06 <br>
+Yu-Hung, Wu
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- Attention Weight Experiment
+- Persona GPT-2
+</script></section><section ><section data-markdown><script type="text/template">
+## Attention Weight Experiment  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Method
+
+- Add an additional weight before softmax layer in scaled dot-product.
+- ![](attachments/2021-10-05-13-06-39.png)</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":true,"pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
