@@ -33,7 +33,83 @@ Yu-Hung, Wu
 ## Method
 
 - Add an additional weight before softmax layer in scaled dot-product.
-- ![](attachments/2021-10-05-13-06-39.png)</script></section></section></div>
+- ![](attachments/2021-10-05-13-06-39.png) <!-- .element: class="img30" -->
+</script></section><section data-markdown><script type="text/template">
+## Method
+
+- The weight is designed as an exponential function.
+- The later the sentence appears, the greater its weight.
+- ![](attachments/2021-10-05-13-47-58.png)
+</script></section><section data-markdown><script type="text/template">
+## Experiments
+
+- Without weight (weight = 1.0)
+
+```
+user:你好
+chatbot:我是小妍啊！
+user:我們去爬山
+chatbot:我們去爬山啊！
+user:還是去海邊
+chatbot:我們去爬山啊！
+user:不要
+chatbot:我們去爬山啊！
+```
+
+- With weight (weight = 5.0)
+
+```
+user:你好
+chatbot:我是小妍啊！
+user:我們去爬山
+chatbot:爬山是一種幸福！
+user:還是去海邊
+chatbot:去海邊玩啊
+user:不要
+chatbot:我覺得海灘很美
+```
+</script></section><section data-markdown><script type="text/template">
+## Conclusion
+
+- Adding weight does help chatbot change the topic. Moreover, it can still maintain the same topic as the user replies bland response.
+
+- With weight (weight = 100.0)
+
+```
+user:你好
+chatbot:我是小妍啊！
+user:我們去爬山
+chatbot:爬山是一種幸福！
+user:還是去海邊
+chatbot:海邊玩啊
+user:不要
+chatbot:我也不喜歡
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Persona GPT-2 <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Method
+
+- 2 GPT-2s
+
+![](attachments/2021-10-06-09-42-18.png) <!-- .element: class="img90" -->
+</script></section><section data-markdown><script type="text/template">
+## Method
+
+- Baseline (Todo)
+
+![](attachments/2021-10-06-09-44-24.png) <!-- .element: class="img80" -->
+</script></section><section data-markdown><script type="text/template">## In Progress...
+- Using the "PERSONA-CHAT" dataset
+- 8939 for training, 100 for validation and 968 for testing
+- Batch size = 2
+- The model converges significantly slower than before
+</script></section><section data-markdown><script type="text/template">
+## Todo
+
+- GPT-2 baseline
+- Add attention weight to the utterance GPT-2
+- Take a deeper look into position encoding in GPT-2</script></section></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
