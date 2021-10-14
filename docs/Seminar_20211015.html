@@ -47,6 +47,10 @@ https://arxiv.org/abs/2002.12591 <!-- .element: class="footnote" -->
 - Combines information retrieval (IR) and machine reading comprehension (MRC) modules.
 
 - The former retrieves the documents using off-the-shelf IR systems based on TF-IDF or BM25, and the latter reads the retrieved documents to extract answer.
+
+P.S. BM25 formula:
+
+![](attachments/2021-10-14-23-11-22.png) <!-- .element: class="img95" -->
 </script></section><section data-markdown><script type="text/template">
 ## Retrieve and Read
 
@@ -148,7 +152,7 @@ Where N<sub>q</sub> denote the number of questions, N<sub>d</sub> denote the num
 </script></section><section data-markdown><script type="text/template">
 ## Transformer component - Initialize
 
-- Previous studies observed that the lower layers of BERT encode more local syntax information such as part-of-speech (POS) tags and constituents, while the higher layers tend to capture more complex semantics relying on wider contexts.
+- Previous studies observed that the lower layers of BERT encode more local syntax information such as part-of-speech (POS) tags, while the higher layers tend to capture more complex semantics relying on wider contexts.
   
 - It's reasonable to initialized the transformer layers by the last K layers of pre-trained BERT, and are updated during the training.
 </script></section><section data-markdown><script type="text/template">
@@ -194,7 +198,7 @@ Where N<sub>q</sub> denote the number of questions, N<sub>d</sub> denote the num
 
 2. Quantized BERT: A compressed BERT-base model.
 
-3. DistilBERT: Leverages knowledge distillation techniques (Hinton et al., 2015) to train a smaller and compact student BERT model.
+3. DistilBERT: Leverages knowledge distillation techniques to train a smaller and compact student BERT model.
 
 </script></section><section data-markdown><script type="text/template">
 ## Results
