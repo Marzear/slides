@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20211201</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Progress Report - 20211201 <!-- .element: class="title" -->
+## Tower GPT-2 + Persona Experiment Results<!-- .element: class="subtitle" -->
+
+<div class="title-name">
+2021.12.01 <br>
+Yu-Hung Wu @ Academia Sinica
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Baseline: GPT-2 + Transformer
+
+![](attachments/2021-11-30-17-26-05.png) <!-- .element: class="img85" -->
+</script></section><section data-markdown><script type="text/template">
+## Tower GPT-2: Basic
+
+![](attachments/2021-11-30-17-12-43.png) <!-- .element: class="img85" -->
+</script></section><section data-markdown><script type="text/template">
+## Tower GPT-2: Global Position
+
+![](attachments/2021-11-30-17-11-05.png) <!-- .element: class="img85" -->
+</script></section><section data-markdown><script type="text/template">
+## Tower GPT-2: Global Position + Initilize with last 3 GPT-2 layers
+
+![](attachments/2021-11-30-16-57-55.png) <!-- .element: class="img70" -->
+</script></section><section data-markdown><script type="text/template">
+## Experiment Results: Training Loss
+
+- Tower GPT-2 + global position model has the lowest training loss
+
+![](attachments/2021-12-01-09-40-10.png) <!-- .element: class="img70" -->
+</script></section><section data-markdown><script type="text/template">
+## Experiment Results: Validation Perplexity
+
+- Basic tower GPT-2 model has the lowest perplexity
+
+![](attachments/2021-12-01-09-41-34.png) <!-- .element: class="img70" --></script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
