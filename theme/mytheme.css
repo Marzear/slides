@@ -31,7 +31,7 @@ body {
 .reveal strong,
 .reveal b {
   font-weight: 700 !important;
-  color: #800080;
+  color: #FFA500;
 }
 
 .slides .present {
@@ -67,7 +67,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .slides .present h1.title {
   letter-spacing: 0rem;
   margin-top: 20%;
-  border-bottom: 2px solid #800080;
+  border-bottom: 2px solid #FFA500;
   font-style: italic;
 }
 
@@ -89,12 +89,12 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   margin: 25% 10% !important;
   padding: 10px;
   text-align: center;
-  border-bottom: 2px solid #800080;
+  border-bottom: 2px solid #FFA500;
 }
 
 .slides .present h2 {
   letter-spacing: 0rem;
-  border-bottom: 2px solid #800080;
+  border-bottom: 2px solid #FFA500;
   padding: 20px 20px 0px 20px;
 }
 
