@@ -1,9 +1,19 @@
----
-title: 'seminar - 20211224'
-date: "2021-12-24"
-theme: theme/mytheme.css
-external_link: ""
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>seminar - 20211224</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
 
 # PLATO: Pre-trained Dialogue Generation Model with Discrete Latent Variable <!-- .element: class="title" -->
 ## ACL 2020 <!-- .element: class="subtitle" -->
@@ -14,22 +24,16 @@ Yu-Hung Wu @ Academia Sinica
 </div>
 
 https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Outline
 
 - Introduction
 - PLATO
 - Experiments
 - Conclusion
-
----
-
+</script></section><section ><section data-markdown><script type="text/template">
 ## Introduction  <!-- .element: class="section-title" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Background
 
 - Dialogue generation in open-domain conversations is a challenging task, due to
@@ -40,9 +44,7 @@ https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
 - Pre-trained large-scale language models can be used for generation after being fine-tuned.
 
 - However, there are some deficiencies in performance while directly fine-tuning BERT on small conversation datasets.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Problems
 
 1. The underlying linguistic patterns in human conversations can be highly different from those in general text.
@@ -50,9 +52,7 @@ https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
 2. The training mode of uni-directional dialogue generation is also distinct from that of bi-directional natural language understating as applied in BERT.
 
 3. There exists a ***one-to-many*** relationship in dialogue generation.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Solutions
 
 1. The underlying linguistic patterns in human conversations can be highly different from those in general text.
@@ -61,9 +61,7 @@ https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
     - A flexible paradigm integrating uni- and bi-directional processing is employed.
 3. There exists a ***one-to-many*** relationship in dialogue generation.
     - Discrete latent variable is introduced.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Latent Variable
 
 - The latent variable gets exempted from the restriction of human annotations and can be learned automatically from the corpus.
@@ -72,13 +70,9 @@ https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
     1. Response generation: Based on the context and latent variable, the generation task tries to maximize the likelihood of the target response.
 
     2. Latent act recognition: Based on the given context and target response, the task aims to estimate the latent variable.
-
----
-
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## PLATO <!-- .element: class="section-title" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Basic Idea
 
 - The main purpose is to encode discrete latent variables into transformer blocks for one-to-many relationship modeling.
@@ -87,9 +81,7 @@ https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
     1. dialogue context (dialogue history, knowledge...) $c$
     2. target response $r$
     3. latent variable $z$: a $K$-way categorical variable $z ∈ [1, K]$
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Probabilistic Relationships
 
 - Response generation (gray lines) - Given a context $c$ and latent variable $z$, conditioned on the context and one selected latent speech act, the response $r$ is generated as $p(r|c, z)$.
@@ -97,26 +89,20 @@ https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
 - Latent act recognition (dashed blue lines): Given a pair of context $c$ and response $r$, the underlying latent speech act $z$ can be estimated as $p(z|c, r)$.
 
 ![](attachments/2021-12-22-17-54-36.png) <!-- .element: class="img95" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Model Architecture - 1 
 
 ![](attachments/2021-12-22-18-00-58.png) <!-- .element: class="img100" -->
 
 - The latent act recognition shares network parameters with response generation.
 - The response generation is a uni-directional decoding process, each token in the response only attends to those before it.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Model Architecture - 2 
 
 ![](attachments/2021-12-22-18-00-58.png) <!-- .element: class="img100" -->
 
 - The latent act recognition works with a special mask symbol $[M]$ as input, it keeps collecting information from the context and target response.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Input Representation
 
 ![](attachments/2021-12-22-18-14-34.png) <!-- .element: class="img100" -->
@@ -124,9 +110,7 @@ https://arxiv.org/abs/1910.07931 <!-- .element: class="footnote" -->
 - Given that $z$ is one $K$-way categorical variable, its token embedding $E[z]$ is mapped from the latent embedding space $ E_{z} ∈ \mathbb{R}^{K×D} $.
 
 - Role embeddings are employed to differentiate the characters evolved in the conversation.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Latent Embeddings
 ```python
 '''
@@ -148,9 +132,7 @@ latent_embed = layers.matmul(z, latent_embeddings)
 * ```post_network``` is a fully connected layer, mapping the embedding from BERT dimension to $K$.
 * ```latent_embeddings``` is a $[K, 768]$ matrix, mapping $z$ to the latent variable token embedding $E[z]$.
 
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Pre-training Objectives
 
 - In this task, there are 3 losses:
@@ -160,9 +142,7 @@ latent_embed = layers.matmul(z, latent_embeddings)
 
 - The total objective of our pre-training model is to minimize the integrated loss:
     ![](attachments/2021-12-22-18-28-15.png)
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Negative Log-likelihood (NLL) loss 
 
 ![](attachments/2021-12-22-18-30-11.png) <!-- .element: class="img60" -->
@@ -173,9 +153,7 @@ latent_embed = layers.matmul(z, latent_embeddings)
     ![](attachments/2021-12-22-18-32-48.png)
     where $h[M] ∈ \mathbb{R}^{D}$ is the final hidden state of the special mask, $W_{1} ∈ \mathbb{R}^{K×D}$ and $b_{1} ∈ \mathbb{R}^{K}$ denote
 the weight matrices of one fully-connected layer.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## BOW (bag-of-words) loss
 
 ![](attachments/2021-12-23-17-09-12.png)
@@ -187,25 +165,19 @@ the weight matrices of one fully-connected layer.
 ![](attachments/2021-12-23-17-11-31.png)
 
 where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the vocabulary size. $f_{r_{t}}$ denotes the estimated probability of word $r_{t}$.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## NLL loss vs. BOW loss
 
 - NLL loss is one of a useful metrics in response generation.
 
 - BOW loss discards the order of words and forces the latent variable to capture the global information of the target response.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## RS (response generation) loss - 1
 
 - Response selection helps distinguish whether the response is relevant with the dialogue context and consistent with the background knowledge.
 
 -  its score can be regarded as an indicator of coherence during inference, helping to select the most coherent one from multiple candidate responses.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## RS (response generation) loss - 2
 
 - The positive training samples come from the dialogue context and corresponding target response $(c, r)$, with label $l_{r} = 1$.
@@ -213,9 +185,7 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
 - The negative samples are created by randomly selecting responses from the corpus $(c, r^{−})$, with label $l_{r^{−}} = 0$.
 
 - The binary cross-entropy loss of response selection is defined as follows:![](attachments/2021-12-23-17-31-35.png)
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Pre-training Summary
 
 1. Latent Act Recognition
@@ -228,9 +198,7 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
 
 3. Optimization
     - Sum up to obtain $L$, and update network parameters with back-propagation.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Hyper-parameters Used in Pre-training
 
 - Max length of context = 256, response = 50
@@ -240,9 +208,7 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
 - batch size = 64, K (number of latents) = 20
 
 - 8 Nvidia Tesla V100 32G GPU cards for 3.5M steps, taking about two weeks to reach convergence.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Fine-tuning
 
 - The fine-tuning on small conversation datasets can be carried out by following the training objectives of the pre-training procedure.
@@ -250,13 +216,9 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
 - During inference, we can
     1. Conditioned on each latent value $z ∈ [1, K]$, generate corresponding candidate response $r$.
     2. Calculate the probability for each response $p(l_{r} = 1|c, r)$ and select the one with highest coherence value as the final response.
-
----
-
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## Experiments <!-- .element: class="section-title" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Datasets
 
 - Persona-Chat: a knowledge grounded conversation dataset.
@@ -267,17 +229,13 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
     -  the system need to generate an answer given dialogue context and background knowledge.
 
 ![](attachments/2021-12-23-18-04-29.png) <!-- .element: class="img100" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Baseline
 
 - Persona-Chat and Daily Dialog: Sequence to sequence with attention
 
 - DSTC7-AVSD: DSTC7 baseline system
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Evaluation Metrics
 
 - BLEU score: measures the n-gram overlap between generated response and the target response.
@@ -285,27 +243,19 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
 - Distinct-1/2: measures the generation diversity, which is defined as the number of distinct uni- or bi-grams divided by the total amount of generated words
 
 - Knowledge Recall/Precision/F1: measures the degree of informativeness.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Experiments - 1
 
 ![](attachments/2021-12-23-18-07-48.png) <!-- .element: class="img100" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Experiments - 2
 
 ![](attachments/2021-12-23-18-14-37.png) <!-- .element: class="img100" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Sample responses
 
 ![](attachments/2021-12-23-18-32-25.png) <!-- .element: class="img100" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Ablation Studies
 
 ![](attachments/2021-12-23-18-41-16.png) <!-- .element: class="img100" -->
@@ -315,13 +265,9 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
 * Group 2 vs. 1: Reflects Twitter and Reddit conversations do improve the generated text.
 
 * Model 2.2 vs. 3.1: Reflects that discrete latent variable is able to boost the quality of response generation.
-
----
-
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## Conclusion <!-- .element: class="section-title" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Conclusion
 
 - Incorporated with latent discrete variables, PLATO has the ability to deal with one-to-many relationship modeling.
@@ -330,4 +276,55 @@ where $h_{z}$ is the final hidden state of the latent variable and $|V|$ is the 
 
 - The results demonstrate that our model obtains significant improvements over the other state-of-the-art methods.
 
-- The model can be potentially improved with more fine-grained latent variables.
+- The model can be potentially improved with more fine-grained latent variables.</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
