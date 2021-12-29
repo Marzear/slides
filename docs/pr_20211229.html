@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20211229</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Progress Report - 20211229 <!-- .element: class="title" -->
+
+<div class="title-name">
+2021.12.29 <br>
+Yu-Hung Wu @ Academia Sinica
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- DSTC9 Baseline
+- Reproduce 
+</script></section><section ><section data-markdown><script type="text/template">
+## DSTC9 Track1 Baseline  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Baseline
+
+![](attachments/2021-12-14-15-25-04.png) <!-- .element: class="img100" -->
+</script></section><section data-markdown><script type="text/template">
+## Baseline Results
+
+```json
+{
+  "detection": {
+    "prec": 0.9988540870893812,
+    "rec": 0.9783015338570894,
+    "f1": 0.9884709884709886
+  },
+  "selection": {
+    "mrr@5": 0.8156366156366145,
+    "r@1": 0.7212247212247214,
+    "r@5": 0.943110943110943
+  },
+  "generation": {
+    "bleu-1": 0.3619689376941501,
+    "bleu-2": 0.22066123492603837,
+    "bleu-3": 0.13626575992587645,
+    "bleu-4": 0.09243940137516801,
+    "meteor": 0.0022680022680022687,
+    "rouge_1": 0.4061197759681313,
+    "rouge_2": 0.174508603525566,
+    "rouge_l": 0.34970513681161436
+  }
+}
+```
+</script></section><section data-markdown><script type="text/template">
+## To-Do (in DSTC-9)
+
+- Combine KS and KG into a single model:
+    ![](attachments/2021-12-28-17-31-14.png)
+
+- Specify the domain first, then use all sub-docs as knowledge.
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Reproduce 20211117 Progress Report
+
+![](attachments/2021-12-29-09-41-14.png) <!-- .element: class="img90" -->
+</script></section><section data-markdown><script type="text/template">
+## Reproduce 20211117 Progress Report
+
+![](attachments/2021-12-29-09-37-44.png) <!-- .element: class="img90" -->
+</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
