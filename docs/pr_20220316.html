@@ -1,10 +1,19 @@
----
-title: 'Progress Report - 20220316'
-# titie: 'Seminar - '
-date: "2022-03-16"
-theme: theme/mytheme.css
-external_link: ""
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220316</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
 
 # Progress Report - 20220316 <!-- .element: class="title" -->
 ##  <!-- .element: class="subtitle" -->
@@ -13,9 +22,7 @@ external_link: ""
 2022.03.16 <br>
 Yu-Hung Wu @ Academia Sinica
 </div>
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Recap
 
 - Last week, I conducted two experiments on TriviaQA dataset:
@@ -23,25 +30,19 @@ Yu-Hung Wu @ Academia Sinica
   - The other with 128 window size, resulting 73.25 on F1 score and 68.08 on EM score
 
 - I traced the code of ```longformer_chunk```, and came up with 2 implementation problems.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Recap.
 
 - Assume that window size = 3 (each token can perform self-attention to at most 7 tokens), the ```longformer_chunk``` algorithm can work appropriately.
 
 ![](attachments/2022-03-03-09-51-35.png) <!-- .element: class="img50" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Recap..
 
 - Assume that window size = 4 (each token can perform self-attention to at most 9 tokens), the algorithm can't work appropriately.
 
 ![](attachments/2022-03-10-16-29-49.png) <!-- .element: class="img50" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Recap...
 
 - Layer-wised dynamic window size:
@@ -52,9 +53,7 @@ Yu-Hung Wu @ Academia Sinica
   - Existing methods cannot work in this case
     - Normal loop method is unusably slow
     - After Matrixing, the memory complexity will be close to full-attention
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Layer-wised Dynamic Window Experiment
 
 - A classification approach: using the [CLS] token of each hidden state to predict the window size.
@@ -62,9 +61,7 @@ Yu-Hung Wu @ Academia Sinica
 - Each [CLS] token will be used to predict the "partition" of the maximum window size.
 
 - Given a maximum window size $w$, the window size of each layer is: $round(w * f(E_{[CLS]}))$.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Layer-wised Dynamic Window Result
 
 - The maximum window size $w$ is 256 (the limit of biotite GPU).
@@ -81,17 +78,13 @@ Yu-Hung Wu @ Academia Sinica
 | **Dynamic window (A)**      | 73.48               | 68.38               |
 | **Dynamic window (B)**      | 73.57               | 68.44               |
 | **Dynamic window (C)**      | 73.61               | 68.53               |
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Window Size Visualization
 
 - The average window size of each *step*. (For each step, calculate the average window size of 12 layers)
 
 ![](attachments/2022-03-16-00-10-29.png) <!-- .element: class="img70" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 
 ## Window Size Visualization
 
@@ -111,13 +104,62 @@ Yu-Hung Wu @ Academia Sinica
 |10|124.1|
 |11|128.5|
 |12|125.4|
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Seminar Paper: E2E-VLP (ACL 2021)
 
 - The first end-to-end VLP model for V+L understanding and generation.
 
 - Input the ***whole image*** for training.
 
-- Enhance cross-modal feature fusion by object detection and image caption.
+- Enhance cross-modal feature fusion by object detection and image caption.</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

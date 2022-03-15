@@ -7,6 +7,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+
 body {
   font-size: 28px;
 }
@@ -266,12 +269,12 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
  *********************************************/
 :root {
   --background-color: #fff;
-  --main-font: Noto Sans TC, sans-serif;
+  --main-font: "Lora";
   --main-font-size: 28px;
   --main-color: #333;
   --block-margin: 20px;
   --heading-margin: 0 0 20px 0;
-  --heading-font: Noto Sans TC, sans-serif;
+  --heading-font: "Lora";
   --heading-color: #333;
   --heading-line-height: 1.4;
   --heading-letter-spacing: normal;
@@ -296,7 +299,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 }
 
 .reveal {
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "Lora";
   font-size: 28px;
   font-weight: normal;
   color: #333;
@@ -331,7 +334,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #333;
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "Lora";
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: normal;
