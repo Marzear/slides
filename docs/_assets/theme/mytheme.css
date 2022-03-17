@@ -34,7 +34,7 @@ body {
 .reveal strong,
 .reveal b {
   font-weight: 700 !important;
-  color: #FFA500;
+  color: #20B2AA;
 }
 
 .slides .present {
@@ -70,7 +70,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .slides .present h1.title {
   letter-spacing: 0rem;
   margin-top: 20%;
-  border-bottom: 2px solid #FFA500;
+  border-bottom: 2px solid #20B2AA;
   font-style: italic;
 }
 
@@ -92,12 +92,12 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   margin: 25% 10% !important;
   padding: 10px;
   text-align: center;
-  border-bottom: 2px solid #FFA500;
+  border-bottom: 2px solid #20B2AA;
 }
 
 .slides .present h2 {
   letter-spacing: 0rem;
-  border-bottom: 2px solid #FFA500;
+  border-bottom: 2px solid #20B2AA;
   padding: 20px 20px 0px 20px;
 }
 
@@ -606,6 +606,26 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal table tbody tr:last-child th,
 .reveal table tbody tr:last-child td {
   border: 1px solid gray;
+}
+
+#left {
+	margin: 10px 0 15px 20px;
+	text-align: justify;
+	float: left;
+	z-index:-10;
+	width:48%;
+	font-size: 0.85em;
+	line-height: 1.5; 
+}
+
+#right {
+	margin: 10px 0 15px 0;
+	float: right;
+	text-align: left;
+	z-index:-10;
+	width:48%;
+	font-size: 0.85em;
+	line-height: 1.5; 
 }
 
 /*# sourceMappingURL=mytheme.css.map */
