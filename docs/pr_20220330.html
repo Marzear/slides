@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220330</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Progress Report - 20220330 <!-- .element: class="title" -->
+
+<div class="title-name">
+2022.03.30 <br>
+Yu-Hung Wu @ Academia Sinica
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Recap
+
+- Last week, I modified the code of Longformer, making it applicable to dynamic attention window selection.
+
+- The original method to predict the window size is non-differentiable.
+</script></section><section data-markdown><script type="text/template">
+## Differentiable Attention Window
+
+- Instead of predicting the window size directly, predict the standard deviation ($\sigma$) of normal distribution.
+
+- This solves the continuity problem of the window size, since the std is not necessarily integer.
+
+![](attachments/2022-03-29-13-47-38.png)
+</script></section><section data-markdown><script type="text/template">
+## Differentiable Attention Window.
+
+- Use the $[CLS]$ token of each hidden state to predict $\sigma$.
+
+- Generate the PDF of normal distribution.
+
+- Set a threshold (e.g. 0.5) and apply to the PDF.
+</script></section><section data-markdown><script type="text/template">
+## Differentiable Attention Window..
+
+1. The hidden state of $[CLS]$ token is passed into a linear projection layer and a sigmoid function to generate the standatd deviation $\sigma$.
+    - $\sigma = Sigmoid(L(E_{[CLS]}$))
+
+2. Apply the formula for the PDF of normal distribution, and generate a normal distribution vector $V$:
+    - $f(x) = \frac{1}{\sigma\sqrt{2\pi}} 
+e\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\\right)$, where $\sigma$ is the standard deviation and $\mu$ is the mean.
+</script></section><section data-markdown><script type="text/template">
+## Differentiable Attention Window...
+
+3. Apply a threshold to the calculated normal distribution.
+    - The threshold is a hyperparameter. The range of $f(x)$ is $[0,1]$, so the threshold must be in the interval $[0,1]$.
+    - For each element in $V$:
+      - If the value > threshold, retain its value.
+      - Otherwise, set it to 1.
+
+4. Generate an approximated attention mask:
+    - $M = 1 - V^{p}$, where $p$ can be treat as a hyperparameter.
+</script></section><section data-markdown><script type="text/template">
+## Pseudo code
+
+```python
+proj_cls = linear_layer(cls_hidden_state)
+std = sigmoid(proj_cls) # Get the standard deviation
+range_tensor = range(L) # Generate a tensor [0,1,2,...,L-1]
+normal_distribution = vectorized_nd(range_tensor, std) # apply the normal distribution
+th = threshold(normal_distribution, threshold, 1)
+attention_mask = 1 - pow(normal_distribution, p)
+```
+</script></section><section data-markdown><script type="text/template">
+## Example
+
+- Assume that $p$ = 10000, threshold = 0.9 (attention window size = 299)
+![](attachments/2022-03-29-14-39-09.png) <!-- .element: class="img70" -->
+</script></section><section data-markdown><script type="text/template">
+## Example.
+
+- Assume that $p$ = 10000, threshold = **0.8** (attention window size = 511)
+
+![](attachments/2022-03-29-14-45-52.png) <!-- .element: class="img70" -->
+</script></section><section data-markdown><script type="text/template">
+## Example..
+
+- Assume that $p$ = **100**, threshold = 0.9 (attention window size= 299)
+
+![](attachments/2022-03-29-14-25-35.png) <!-- .element: class="img70" -->
+</script></section><section data-markdown><script type="text/template">
+## Apply to ```longformer-chunk``` (Todo)
+
+![](attachments/2022-03-03-09-51-35.png) <!-- .element: class="img40" -->
+
+- The resulting attention matrix is (2w $\times$ n), where w is the window size and  n is the sequence length.
+- Truncate the non-zero part in $M$, and perform dot product with the attention matrix.
+</script></section><section data-markdown><script type="text/template">
+## Todo
+
+- Apply differentiable attention window to longformer.
+
+- Survey another way to generate the attention mask vector.
+    - Sparse Sinkhorn Attention
+
+- Figure out why the gradient vanished when $p$ is large (~10000).</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
