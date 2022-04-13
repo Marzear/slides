@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220413</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Progress Report - 20220413 <!-- .element: class="title" -->
+
+<div class="title-name">
+2022.04.13 <br>
+Yu-Hung Wu @ Academia Sinica
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Formula Modification
+| Object                   | Original                                                           | Modified                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Standard deviation (std) | $\sigma = Sigmoid(Linear(E_{[CLS]}))$                              | $\sigma = ReLU(Linear(E_{[CLS]}))$                                                                                                  |
+| Bell curve vector        | $V = [f(0), f(1), f(2)...f(N-1)]$, where $N$ is the sequence length. | $V = [f(\frac{2\times0}{N-1} - 1), f(\frac{2\times1}{N-1} - 1),...f(\frac{2\times (N-1)}{N-1} - 1)]$, where $N$ is the sequence length. |
+| Thresholding             | $V' = Threshold(V, T, 1)$                                          | $V' = Threshold(V, T, 0)$                                                                                                           |
+| Smoothing                | $M = 1 - V'^{p}$, where $p$ is a hyperparameter.                   | $M = tanh(p\cdot V')$, where $p$ is a hyperparameter.                                                                               |
+
+- Bell curve formula: $f(x) = \frac{1}{\sigma\sqrt{2\pi}} 
+e\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\\right)$, where $\sigma$ is the standard deviation and $\mu = 0$.
+
+</script></section><section data-markdown><script type="text/template">
+## Attention Multiplication Matrix
+
+- Yellow dots indicate the "center" point in the vector (with the largest value).
+
+- Green dots indicate the "non-zero" part in the vector.
+
+![](attachments/2022-04-12-19-37-27.png) <!-- .element: class="img40" -->
+</script></section><section data-markdown><script type="text/template">
+## Attention Multiplication Matrix
+
+- Only multiply the non-zero part in the right matrix.
+
+![](attachments/2022-04-13-09-47-12.png)<!-- .element: class="img80" -->
+</script></section><section data-markdown><script type="text/template">
+## Todo
+
+- Continuing apply dynamic window selection to longformer.
+
+- Survey another way to generate the attention mask vector.
+    - Sparse Sinkhorn Attention</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
