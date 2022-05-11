@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220511</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Progress Report - 20220511 <!-- .element: class="title" -->
+
+<div class="title-name">
+2022.05.11 <br>
+Yu-Hung Wu @ Academia Sinica
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- Stage #1 Experiment
+- Stage #2 Implementation problem
+</script></section><section ><section data-markdown><script type="text/template">
+## Stage #1 Experiment (without constraint) <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Differentiable Attention Window
+
+- A two-stage training:
+    1. **Use a smaller scale to train a strategy of sliding window**
+        - **Update the sliding window network and the backbone model simultaneously (without slicing the window dynamically).**
+
+    2. Update the model with a large scale using the learned strategy
+        - Only update the backbone model (using the slicing window strategy to optimize the computational cost)
+</script></section><section data-markdown><script type="text/template">
+## Stage #1 Setting
+
+- Window size = 128 (each token can attends up to 257 tokens)
+
+- Bell curve formula: $U_{i, j} = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{j-i}{\sigma}\right)^{2}\}$, where $i$ is the query id and $j$ is the key id.
+</script></section><section data-markdown><script type="text/template">
+## Standard Deviation Training Curve
+
+![](attachments/2022-05-10-17-07-49.png) <!-- .element: class="img90" -->
+
+- $\sigma$ increases from 1 to 9.5
+</script></section><section data-markdown><script type="text/template">
+## Standard Deviation Training Curve
+
+- When $\sigma$ = 1, each token can actually attends up to 29 tokens (w = 14)
+
+![](attachments/2022-05-10-17-52-51.png) <!-- .element: class="img40" -->
+
+- When $\sigma$ = 9.5, each token can attends up to 89 tokens (w = 44)
+
+![](attachments/2022-05-10-17-46-30.png) <!-- .element: class="img40" -->
+</script></section><section data-markdown><script type="text/template">
+## Standard Deviation Training Curve
+
+* Times the learning rate by 10
+
+![](attachments/2022-05-10-22-53-45.png) <!-- .element: class="img60" -->
+
+- $\sigma$ increases from 1 to 15 (when $\sigma$ = 15, each token can attends up to 111 tokens)
+</script></section><section data-markdown><script type="text/template">
+## Standard Deviation Training Curve
+
+* Times the learning rate by 100
+
+![](attachments/2022-05-10-17-10-44.png) <!-- .element: class="img90" -->
+</script></section><section data-markdown><script type="text/template">
+## Training Result
+
+| Exp Setting                       | Testing F1 Score | Testing EM Score |
+| --------------------------------- | ---------------- | ---------------- |
+| Normal LR                         | 57.29            | 49.13            |
+| LR*10                             | **59.42**            | **51.92**            |
+| LR*100                            | 58.01            | 50.02            |
+| *Window size = 128 (non-dynamic)* | *73.25*          | *68.08*          |
+</script></section><section data-markdown><script type="text/template">
+## Next Step
+
+- Add constraint to stage #1
+
+- Try another slicing-like distribution
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Stage #2 Implementation problem <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## ```Longformer``` Experiements
+
+![](attachments/2022-05-10-23-00-22.png)
+</script></section><section data-markdown><script type="text/template">
+## Implementations
+
+![](attachments/2022-03-03-09-51-35.png) <!-- .element: class="img35" -->
+
+- Colored blocks is the **longformer-chunk** implementation, however it only applies to fixed window size.
+
+- If we calculate the gray part separately (**longformer-loop**), it is unusably slow.
+
+- **longformer-cuda** *may* be a possible solution for dynamic attention window.</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
