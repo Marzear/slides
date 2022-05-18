@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220525</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Progress Report - 20220525 <!-- .element: class="title" -->
+
+<div class="title-name">
+2022.05.25 <br>
+Yu-Hung Wu @ IIS, Academia Sinica
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- Previous Models
+- Proposed Model
+- Results & Studys
+- Conclusion
+</script></section><section ><section data-markdown><script type="text/template">
+## Previous Model  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Results
+
+1. Dynamic standard deviation
+
+| Exp Setting                           | Testing F1 Score | Testing EM Score |
+| ------------------------------------- | ---------------- | ---------------- |
+| Dynamic $\sigma$ (start from 1)       | 57.29            | 49.13            |
+| **Dynamic $\sigma$ (start from 9.5)** |                  |                  |
+| LR*10 (start from 1)                  | 59.42            | 51.92            |
+| LR*100 (start from 1)                 | 58.01            | 50.02            |
+
+2. Fixed standard deviation
+
+| Exp Setting                                | Testing F1 Score | Testing EM Score |
+| ------------------------------------------ | ---------------- | ---------------- |
+| **Fixed $\sigma$  ($\sigma$=1.0, w=14)**   |                  |                  |
+| **Fixed $\sigma$  ($\sigma$=9.5, w=44)**   | 53.08            | 46.19            |
+| **Fixed $\sigma$  ($\sigma$=64, w=112)**   |                  |                  |
+| **Fixed $\sigma$  ($\sigma$=5000, w=128)** |                  |                  |
+</script></section><section data-markdown><script type="text/template">
+## Results
+
+3. Fixed window size (w/o standard deviation)
+
+| Exp Setting                 | Testing F1 Score | Testing EM Score |
+| --------------------------- | ---------------- | ---------------- |
+| Fixed window size (256)     | 73.78            | 68.99            |
+| **Fixed window size (128)** | 73.11            | 68.00            |
+| Fixed window size (112)     | 72.84            | 67.72            |
+| **Fixed window size (44)**  | 72.22            | 66.91            |
+| **Fixed window size (14)**  |                  |                  |</script></section><section data-markdown><script type="text/template">
+
+## pics
+
+![](attachments/2021-07-06-20-47-53.png) <!-- .element: class="img85" --></script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
