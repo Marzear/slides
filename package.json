@@ -4,6 +4,6 @@
     "build": "rm -rf docs && reveal-md content/ --static docs --static-dirs=content/attachments && touch docs/.nojekyll"
   },
   "dependencies": {
-    "reveal.js": "^3.5.0"
+    "reveal.js": "^4.3.0"
   }
 }
