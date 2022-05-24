@@ -21,16 +21,9 @@
 2022.05.25 <br>
 Yu-Hung Wu @ IIS, Academia Sinica
 </div>
-</script></section><section  data-markdown><script type="text/template">
-## Outline
 
-- Previous Models
-- Proposed Model
-- Results & Studys
-- Conclusion
-</script></section><section ><section data-markdown><script type="text/template">
-## Previous Model  <!-- .element: class="section-title" -->
-</script></section><section data-markdown><script type="text/template">
+https://marzear.github.io/slides/pr_20220525.html <!-- .element: class="footnote" -->
+</script></section><section  data-markdown><script type="text/template">
 ## Results
 
 1. Dynamic standard deviation
@@ -42,7 +35,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | LR*10         | 1.0               | 15.0            | 59.42            | 51.92            |
 | LR*100        | 1.0               | 58.2            | 58.01            | 50.02            |
 
-1. Fixed standard deviation
+2. Fixed standard deviation
 
 | Exp Setting                                 | Testing F1 Score | Testing EM Score |
 | ------------------------------------------- | ---------------- | ---------------- |
@@ -51,7 +44,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | **Fixed $\sigma$  ($\sigma$=64, w=112)**    | 58.15            | 49.69            |
 | **Fixed $\sigma$  ($\sigma$=1000, w=128)**  | 53.65            | 43.89            |
 | **Fixed $\sigma$  ($\sigma$=50000, w=128)** | 53.30            | 43.41            |
-</script></section><section data-markdown><script type="text/template">
+</script></section><section  data-markdown><script type="text/template">
 ## Results
 
 3. Fixed window size (w/o standard deviation)
@@ -62,11 +55,48 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | **Fixed window size (128)** | 73.11            | 68.00            |
 | Fixed window size (112)     | 72.84            | 67.72            |
 | **Fixed window size (44)**  | 72.22            | 66.91            |
-</script></section><section data-markdown><script type="text/template">
+</script></section><section  data-markdown><script type="text/template">
+## Observations
 
-## pics
+1. Adding normal distribution to the attention weights has negative effect to the performance.
 
-![](attachments/2021-07-06-20-47-53.png) <!-- .element: class="img85" --></script></section></section></div>
+2. Using token embeddings to predict $\sigma$s has worked.
+
+3. Increasing the learning rate of $U_{d}$ and $W_{p}$ (both contribute to the calculation of $\sigma$) improves the performance.
+
+4. Increasing $\sigma$ has negative effect to the performance.
+</script></section><section  data-markdown><script type="text/template">
+## Problems
+
+* *Longformer* uses global attention + sliding window method.
+
+* Global attention tokens attend to every tokens; every token attend to global attention tokens.
+
+![](attachments/2022-05-24-12-16-29.png)
+</script></section><section  data-markdown><script type="text/template">
+## Problems.
+
+* Each token calculates its attention score base on global tokens + sliding window tokens.
+
+* Our purpose is to only accelerate the memory efficiency of "sliding window tokens"; therefore, we only apply our method to sliding window tokens.
+
+* Since all values of normal distribution PDF curve < 1, it decreases the attention weights itself.
+</script></section><section  data-markdown><script type="text/template">
+## Problems..
+
+* If $\sigma = 50000$, the curve is very close to uniform distribution.
+
+* However, after the global attention tokens participating in the attention weight calculation, the weights of sliding window tokens are nearly ZERO!
+
+![](attachments/2022-05-24-12-37-45.png)
+</script></section><section  data-markdown><script type="text/template">
+## Modification
+
+* Original normal distribution curve: $U_{i, j} = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{j-i}{\sigma}\right)^{2}\}$, where $\sigma$ is a learnable standard deviation of the normal distribution, $j$ is the position id of a key and $i$ is the position id of a query.
+
+* Modified ~~normal distribution~~ bell curve: $U_{i, j} = e^{-\frac{1}{2}\left(\frac{j-i}{\sigma}\right)^{2}\}$.
+
+* The maximum value of the bell curve is 1.</script></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
