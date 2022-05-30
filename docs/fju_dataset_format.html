@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>fju_dataset_formats</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# FJU chatbot Dataset Format <!-- .element: class="title" -->
+
+<div class="title-name">
+2022.05.25 <br>
+Yu-Hung Wu @ IIS, Academia Sinica
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Dataset
+
+* The dataset are converted in JSON format.
+
+```json
+{
+  "category":"relationship",
+  "dialogue":[
+    {
+      "utterance":"我覺得跟阿公阿嬤好像很難聊天",
+      "speaker":"user"
+    },
+    {
+      "utterance":"怎麼會，你們不常見面嗎",
+      "speaker":"bot"
+    },
+    {
+      "utterance":"也不是，一個禮拜一次啊",
+      "speaker":"user"
+    },
+    {
+      "utterance":"那你有沒有學著好好聽他們說話",
+      "speaker":"bot"
+    },
+    {
+      "utterance":"沒有耶…",
+      "speaker":"user"
+    },
+    {
+      "utterance":"他們可能很想跟你分享，你下次可以試著問問他們之前小時候的故事啊～",
+      "speaker":"bot"
+    },
+    {
+      "utterance":"我下次努力試試～他們其實平時也很關心我",
+      "speaker":"user"
+    },
+    {
+      "utterance":"對啊，或你也可以關心他們一下，像有沒有睡好啊，吃飽沒之類的",
+      "speaker":"bot"
+    },
+    {
+      "utterance":"我知道了，我會努力的",
+      "speaker":"user"
+    },
+    {
+      "utterance":"加油加油！",
+      "speaker":"bot"
+    }
+  ],
+  "id":"4e90b44c-87b9-4764-a675-5f1c95233f0d",
+  "university":"fju",
+  "date":"20211201"
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Dataset.
+
+* Each element represents a dialogue.
+
+* Specification of each element:
+  * ```category```: ```str```, represents the category of the dialogue.
+    * Must be one of these: [food(食), clothing(衣), housing(住), transportation(行), education(育), entertainment(樂/生活), relationship(人際關係), club(社團), work(工作/打工), covid(疫情)]
+  * ```dialogue```: ```list```, Contains the utterances.
+  * ```id```: ```str```, an unique id.
+  * ```university```: ```str```, source of the dialogue.
+    * Must be one of these: [fju(輔仁), ntue(國北教)]
+  * ```date```: ```str```.
+</script></section><section  data-markdown><script type="text/template">
+## Statistics
+
+| Category       | 下新莊區輔仁大學 | 差點被台大合併的國北教 | **Total**  |
+| -------------- | ---------------- | ---------------------- | ---------- |
+| food           | 172              | 92                     | 264        |
+| clothing       | 234              | 0                      | 234        |
+| housing        | 102              | 23                     | 125        |
+| transportation | 168              | 61                     | 229        |
+| education      | 275              | 127                    | 402        |
+| entertainment  | 383              | 232                    | 615        |
+| club           | 33               | 0                      | 33         |
+| relationship   | 145              | 149                    | 294        |
+| work           | 20               | 21                     | 41         |
+| covid          | 40               | 0                      | 40         |
+| **total**      | 1572             | 705                    | ***2277*** |</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"h.v","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

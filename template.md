@@ -11,7 +11,7 @@ external_link: ""
 
 <div class="title-name">
 2022.[DATE] <br>
-Yu-Hung Wu @ Academia Sinica
+Yu-Hung Wu @ IIS, Academia Sinica
 </div>
 
 https://arxiv.org <!-- .element: class="footnote" -->
@@ -30,7 +30,3 @@ https://arxiv.org <!-- .element: class="footnote" -->
 ## Previous Model  <!-- .element: class="section-title" -->
 
 ----
-
-## pics
-
-![](attachments/2022-07-06-20-47-53.png) <!-- .element: class="img85" -->
