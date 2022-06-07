@@ -22,7 +22,7 @@
 Yu-Hung Wu @ IIS, Academia Sinica
 </div>
 
-https://arxiv.org <!-- .element: class="footnote" -->
+https://marzear.github.io/slides/pr_20220608.html <!-- .element: class="footnote" -->
 </script></section><section  data-markdown><script type="text/template">
 ## Results
 
@@ -70,6 +70,19 @@ https://arxiv.org <!-- .element: class="footnote" -->
 ![](attachments/2022-05-30-12-40-57.png) <!-- .element: class="img110" -->
  
 </div></script></section><section  data-markdown><script type="text/template">
+## $\sigma$'s Standard Deviation
+
+<div id="left"> 
+
+![](attachments/2022-06-08-00-16-06.png) <!-- .element: class="img130" -->
+
+</div>
+<div id="right">
+
+![](attachments/2022-06-08-00-18-12.png) <!-- .element: class="img130" -->
+
+</div>
+</script></section><section  data-markdown><script type="text/template">
 ## Todo
 
 - A two-stage training:
@@ -78,10 +91,25 @@ https://arxiv.org <!-- .element: class="footnote" -->
 
     2. **Update the model with a large scale using the learned strategy**
         - **Only update the backbone model (using the slicing window strategy to optimize the computational cost)**
+
+</script></section><section  data-markdown><script type="text/template">
+## Global Attention (GA) Investigation
+
+| Setting                         | **Validation** F1 Score | **Validation** EM Score |
+| ------------------------------- | ---------------- | ---------------- |
+| **avg. $\sigma$ = 10, w/o GA**       | 40.09            | 35.42            |
+| **fixed $\sigma$ = 10, w/o GA**      | 34.60            | 30.29            |
+| **avg. $\sigma$ = 10, w/ GA** (baseline)      |70.67|65.71|
+
+- Preliminary observation: In **avg. $\sigma$ = 10, w/o GA** experiment, padding tokens share less $\sigma$ then others.
 </script></section><section  data-markdown><script type="text/template">
 ## Seminar Paper
 
-</script></section></div>
+- Topic: *ProphetChat: Enhancing Dialogue Generation with Simulation of Future Conversation*
+
+- Utilizing the simulated dialogue futures in the inference phase to enhance response generation.
+
+- Estimate $P(response|history, feature)$.</script></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
