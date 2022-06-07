@@ -23,14 +23,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 </div>
 
 https://arxiv.org <!-- .element: class="footnote" -->
-</script></section><section ><section data-markdown><script type="text/template">
-## Outline
-
-- Previous Models
-- Proposed Model
-- Results & Studys
-- Conclusion
-</script></section><section data-markdown><script type="text/template">
+</script></section><section  data-markdown><script type="text/template">
 ## Results
 
 1. Fixed $\sigma$ (window size = 128)
@@ -39,7 +32,7 @@ https://arxiv.org <!-- .element: class="footnote" -->
 | --------------------------------------- | ---------------- | ---------------- |
 | **Fixed $\sigma$  ($\sigma$=1, w=14)**  | 64.87            | 59.48            |
 | **Fixed $\sigma$  ($\sigma$=10, w=45)** | 69.38            | 64.38            |
-| **Fixed $\sigma$  ($\sigma$=100)**      |                  |                  |
+| **Fixed $\sigma$  ($\sigma$=100)**      | 72.07            | 67.13            |
 | **Fixed $\sigma$  ($\sigma$=1000)**     | 73.10            | 68.21            |
 | **Fixed $\sigma$  ($\sigma$=25000)**    | 73.40            | 68.23            |
 | **Fixed $\sigma$  ($\sigma$=50000)**    | 73.63            | 68.56            |
@@ -51,19 +44,44 @@ https://arxiv.org <!-- .element: class="footnote" -->
 | ------------------ | ----------------- | --------------- | ---------------- | ---------------- |
 | **LR = $3e^{-4}$** | 1.0               | 102.3           | 70.56            | 65.53            |
 | **LR = $3e^{-2}$** | 1.0               | 23635.3         | 72.75            | 67.52            |
-</script></section><section data-markdown><script type="text/template">
-## Results
+</script></section><section  data-markdown><script type="text/template">
+## Window Size Constraint
 
-3. Dynamic $\sigma$ **(constrained)**
+- We can obtain the $\sigma$ of all queries in a single layer by using the following formula:
+    - $\Sigma = U_{d}∗tanh(Q*W_{p})$, where $Q$ is a matrix that contains ALL queries $[q_{0}, q_{1}, q_{2}...q_{n-1}]$ and has shape $[n, 768]$, $\Sigma$ is a vector that contains the $\sigma$ of ALL queries and has shape $[n, 1]$.
+
+- To apply constraints to the above formula, first set the average of $\sigma$ as a constant value $C$. Thus, the constrained $\Sigma$ is: $\Sigma^{\prime} = C * n * softmax(U_{d}∗tanh(Q*W_{p}))$
+</script></section><section  data-markdown><script type="text/template">
+## Results
 
 | Setting                         | Testing F1 Score | Testing EM Score |
 | ------------------------------- | ---------------- | ---------------- |
 | **avg. $\sigma$ = 10**          | 70.67            | 65.71            |
 | Fixed $\sigma$ = 10 (baseline)  | 69.38            | 64.38            |
-| **avg. $\sigma$ = 100**         |                  |                  |
-| Fixed $\sigma$ = 100 (baseline) |                  |                  |
-</script></section><section data-markdown><script type="text/template">
-## pics</script></section></section></div>
+| **avg. $\sigma$ = 100**         | 71.93            | 67.08            |
+| Fixed $\sigma$ = 100 (baseline) | 72.07            | 67.13            |
+<div id="left"> 
+
+![](attachments/2022-05-30-12-34-03.png) <!-- .element: class="img110" -->
+
+</div>
+<div id="right">
+
+![](attachments/2022-05-30-12-40-57.png) <!-- .element: class="img110" -->
+ 
+</div></script></section><section  data-markdown><script type="text/template">
+## Todo
+
+- A two-stage training:
+    1. Use a smaller scale to train a strategy of sliding window
+        - Update the sliding window network and the backbone model simultaneously (without slicing the window dynamically).
+
+    2. **Update the model with a large scale using the learned strategy**
+        - **Only update the backbone model (using the slicing window strategy to optimize the computational cost)**
+</script></section><section  data-markdown><script type="text/template">
+## Seminar Paper
+
+</script></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
