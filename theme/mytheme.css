@@ -34,7 +34,7 @@ body {
 .reveal strong,
 .reveal b {
   font-weight: 700 !important;
-  color: #20B2AA;
+  color: #D9B300;
 }
 
 .slides .present {
@@ -70,7 +70,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .slides .present h1.title {
   letter-spacing: 0rem;
   margin-top: 20%;
-  border-bottom: 2px solid #20B2AA;
+  border-bottom: 2px solid #D9B300;
   font-style: italic;
 }
 
@@ -92,12 +92,12 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   margin: 25% 10% !important;
   padding: 10px;
   text-align: center;
-  border-bottom: 2px solid #20B2AA;
+  border-bottom: 2px solid #D9B300;
 }
 
 .slides .present h2 {
   letter-spacing: 0rem;
-  border-bottom: 2px solid #20B2AA;
+  border-bottom: 2px solid #D9B300;
   padding: 20px 20px 0px 20px;
 }
 
