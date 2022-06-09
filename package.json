@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "reveal-md content/ -w",
-    "build": "rm -rf docs && reveal-md content/ --static docs --static-dirs=content/attachments --assets-dir slides/assets && touch docs/.nojekyll"
+    "build": "rm -rf docs && reveal-md content/ --static docs --static-dirs=content/attachments && touch docs/.nojekyll"
   },
   "dependencies": {
     "reveal-md": "^5.1.3",
