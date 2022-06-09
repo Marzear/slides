@@ -6,6 +6,6 @@
     "slideNumber": "h.v",
     "pdfMaxPagesPerSlide": 1,
     "pdfSeparateFragments": true,
-    "pdfPageHeightOffset": -1,
+    "pdfPageHeightOffset": -8,
     "transition": "none"
 }
