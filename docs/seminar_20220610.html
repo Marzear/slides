@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>Seminar - 20220610</title>
-    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
     <link rel="stylesheet" href="./dist/reveal.css" />
-    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="/_assets/theme/mytheme.css" id="theme" />
     <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
 
   </head>
   <body>
@@ -178,7 +180,132 @@ https://aclanthology.org/2022.acl-long.68/ <!-- .element: class="footnote" -->
   3. $g$: the gate used to compute the weight between $G_{F}$ and $G_{B}$.
   4. $S$: the selector to evaluate the utterances.
 
-- Generate responses → select $k$ → generate futures → select $k$ → generate more responses → select 1</script></section></section></div>
+- Generate responses → select $k$ → generate futures → select $k$ → generate more responses → select 1
+</script></section><section data-markdown><script type="text/template">
+## Training of $G_{F}$ and $G_{B}$
+
+- The authors fine-tuned $G_{F}$ and $G_{B}$ as the same method as DialoGPT.
+
+- $G_{F}$ stands for the forward model and $G_{B}$ stands for the backward (MMI) model.
+
+- The two components are fine-tuned before training $g$ and $S$.
+</script></section><section data-markdown><script type="text/template">
+## Training of $g$
+
+- Directly minimize the NLL of the gold response $r^{*}$:
+
+  ![](attachments/2022-06-09-11-36-13.png) <!-- .element: class="img70" -->
+
+- $f$ (future) can be simulated from:
+  1. The gold response (teacher-forcing mode)
+  2. A sampled first-pass response (free-tunning mode)
+
+- The paper creates a curriculum schedule that gradually switches from the teacher-forcing mode to the free-running mode.
+</script></section><section data-markdown><script type="text/template">
+## Training of $S$
+
+- The goal is to directly optimize $S$ to our ultimate goal which is to maximize the log-likelihood of the gold response.
+
+- The paper adopts reinforcement learning to optimize $S$.
+
+- The quality scores of first-hand responses (or futures) can naturally form a score distribution, then we can sample a response (or future) from them.
+
+- Then, we can feed the sampled future and history into the ensemble generation model and calculate the log-likelihood of the gold response.
+</script></section><section data-markdown><script type="text/template">
+## Training of $S$.
+
+- The self-critic baseline: select the response/future with the highest scores in each sampling step, and calculate the reward as $R_{b}$.
+
+- The gradient can be estimated as:
+  ![](attachments/2022-06-09-12-01-35.png)  <!-- .element: class="img70" -->
+</script></section><section data-markdown><script type="text/template">
+## Training Summary
+
+1. Use the same training objective to train $G_{F}$ and $G_{B}$.
+
+2. Traing $g$.
+
+3. Train $S$.
+
+4. Jointly tune $g$ and $S$.
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Results & Studies  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Datasets
+
+- DailyDialog: A dataset that contains our daily dialogues.
+
+- PersonaChat: A multi-turn dataset that also consider the speaker's persona.
+
+- For both datasets, the paper treats each consecutive three utterances as a triplet that represents history-response-future.
+</script></section><section data-markdown><script type="text/template">
+## Variants and Ablations of ProphetChat
+
+- $ProphetChat_{k=?}$: the model with the same model parameters but different beam sizes when simulating the futures.
+
+- $ProphetChat_{first}$: the model only uses the first-pass responses in the final re-ranking process.
+
+- ProphetChat w/o history: only use the futures to generate the response. (only use MMI)
+
+- ProphetChat w/o selector: sample the responses and the futures randomly.
+
+- ProphetChat w/o train: use the fixed weight and $S$ in the ensemble generation.
+
+- ProphetChat w/ gold future: directly use the $gold$ future to generate the response. (NOT work in the inference phase)
+</script></section><section data-markdown><script type="text/template">
+## Results
+
+- The results of DailyDialog dataset.
+
+![](attachments/2022-06-09-14-19-36.png) <!-- .element: class="img110" -->
+</script></section><section data-markdown><script type="text/template">
+## Results.
+
+- The results of DailyDialog dataset.
+
+![](attachments/2022-06-09-14-21-26.png) <!-- .element: class="img110" -->
+</script></section><section data-markdown><script type="text/template">
+## Results..
+
+- Human evaluation results.
+
+![](attachments/2022-06-09-14-22-00.png)  <!-- .element: class="img110" -->
+</script></section><section data-markdown><script type="text/template">
+## Results...
+
+- $TF_{rerank}$: the model uses the history and gold response to generate the future.
+
+- $FR_{k=?}$: origin method with different beam size.
+
+![](attachments/2022-06-09-14-26-04.png)  <!-- .element: class="img110" -->
+</script></section><section data-markdown><script type="text/template">
+## Results....
+
+- The final re-ranking process is sometimes a **remedy**:
+  - Simulated futures are sometimes meaningless or include irrelevant informtaion, which has negative effect on second-pass responses.
+- The proportions of the test cases where the final responses are picked from the **second-pass responses**:
+  - DailyDialog: 40.4%
+  - PersonaChat: 36.6%
+</script></section><section data-markdown><script type="text/template">
+## Case Study
+
+- Case 1
+
+![](attachments/2022-06-09-14-42-45.png) <!-- .element: class="img65" -->
+</script></section><section data-markdown><script type="text/template">
+## Case Study
+
+- Case 2
+
+![](attachments/2022-06-09-14-43-46.png) <!-- .element: class="img65" -->
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Conclusion  <!-- .element: class="section-title" -->
+</script></section><section data-markdown><script type="text/template">
+## Conclusion
+
+- Enhance the dialogue generation via simulated dialogue futures in **inference phase**.
+
+- Different from MMI model, the backward model in ProphetChat contributes to the generation of second-pass responses.</script></section></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
