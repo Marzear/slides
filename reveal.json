@@ -3,7 +3,7 @@
     "progress": true,
     "history": true,
     "center": true,
-    "slideNumber": "h.v",
+    "slideNumber": "c",
     "pdfMaxPagesPerSlide": 1,
     "pdfSeparateFragments": true,
     "pdfPageHeightOffset": -1,
