@@ -1,10 +1,21 @@
----
-title: 'Progress Report - 20220622'
-# titie: 'Seminar - '
-date: "2022-06-22"
-theme: theme/mytheme.css
-external_link: ""
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220622</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
 
 # Progress Report - 20220622 <!-- .element: class="title" -->
 
@@ -12,16 +23,12 @@ external_link: ""
 2022.06.22 <br>
 Yu-Hung Wu @ IIS, Academia Sinica
 </div>
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Outline
 
 - Global Attention (GA) Investigation
 - Stage 2 Implementation
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Global Attention (GA) Investigation
 
 | Setting                               | Testing F1 Score | Testing EM Score |
@@ -33,9 +40,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | **avg. $\sigma$ = 100, w/o GA**       | 51.20            | 46.39            |
 | **fixed $\sigma$ = 100, w/o GA**      | 39.74            | 35.62            |
 | avg. $\sigma$ = 100, w/ GA (baseline) | 72.07            | 67.13            |
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Observations
 
 1. Global Attention is a critical part in longformer (without GA, the performance dramatically decreases by 30 on both F1 and EM scores)
@@ -43,17 +48,13 @@ Yu-Hung Wu @ IIS, Academia Sinica
 2. More $\sigma$ leads to better performance.
 
 3. Letting the model to distribute $\sigma$ by itself leads to huge improvement.
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Stage 2
 
 * For the weights of $U_{d}$ and $W_{p}$, I initialize the weights from a previous experiment (average $\sigma$ = 100, no global attention, no thresholding) and then freeze them.
 
 * The maximum of the window size of each token is 256, and my goal is to distribute $\sigma$s (that equal to $w = 128$) to each token.
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Avg. $\sigma$ Calculation
 
 * $U_{i, j} = e^{-\frac{(j-i)^{2}}{2\sigma}\}$, given a threshold $k$, we have $e^{-\frac{(j-i)^{2}}{2\sigma}\} > k$
@@ -73,9 +74,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
     ➞ $\sigma$ = $\frac{128^{2}}{-2\log 0.5}$ 
 
     ➞ $\sigma = 11819$
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Stage 2 Results
 
 * There are two settings of the experiment:
@@ -93,9 +92,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 ![](attachments/2022-06-20-15-30-59.png) <!-- .element: class="img100" -->
 
 </div>
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Stage 2 Results.
 
 * ALL reported performances do NOT include global attention.
@@ -119,9 +116,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | --------- | ------------- | ----------------------- | ---------------- | ---------------- |
 | 0.5       | 11819         | **108**                 | 59.68            | 54.87            |
 | 0.6       | 16036         | **110**                 | 60.19            | 55.32            |
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Observations
 
 1. Performance increased as window size increased.
@@ -132,9 +127,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 
 4. The more the threshold (and the more the $\sigma$), the better the performance.
 
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Window Size Visualization
 
 
@@ -151,11 +144,60 @@ Yu-Hung Wu @ IIS, Academia Sinica
 
 * Both experiments have the peak at window size = 124.
 
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Todo
 
 1. Explore a way to add global attention to stage 2.
 
-2. Read GPT-3 paper.
+2. Read GPT-3 paper.</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"c","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
