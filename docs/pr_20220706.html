@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220706</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Progress Report - 20220706 <!-- .element: class="title" -->
+##  <!-- .element: class="subtitle" -->
+
+<div class="title-name">
+2022.07.06 <br>
+Yu-Hung Wu @ IIS, Academia Sinica
+</div>
+</script></section><section  data-markdown><script type="text/template">
+## Outline
+
+- Experiment results
+- Dynamic global attention
+- Another 𝜎 distribution strategy
+</script></section><section  data-markdown><script type="text/template">
+## Results
+
+Baseline: Fixed window (w/o global attention)
+
+| Window size | Testing F1 Score | Testing EM Score |
+| ----------- | ---------------- | ---------------- |
+| 128         | 58.17            | 53.20            |
+| 108         | 58.00            | 53.19            |
+
+1. Same $\sigma$, different threshold (w/o global attention)
+
+| Threshold | Avg. $\sigma$ | ACTUAL avg. window size | Testing F1 Score | Testing EM Score |
+| --------- | ------------- | ----------------------- | ---------------- | ---------------- |
+| 0.5       | 11819         | **108**                 | 59.68            | 54.87            |
+| 0.6       | 11819         | **97**                  | 59.37            | 54.57            |
+
+2. ACTUAL avg. window size of different token types
+
+| Threshold | Avg. $\sigma$ | avg. window size | Question tokens | Doc tokens | Padding tokens |
+| --------- | ------------- | ---------------- | --------------- | ---------- | -------------- |
+| 0.5       | 11819         | 108              | 131             | 109        | 84             |
+| 0.6       | 11819         | 97               | 120             | 98         | 77             |
+</script></section><section  data-markdown><script type="text/template">
+## Bell Curve to Uniform
+
+* avg. $\sigma$ = 11819, threshold = 0.5
+
+| Experiment Settings            | Testing F1 Score | Testing EM Score |
+| ------------------------------ | ---------------- | ---------------- |
+| No bell curve added            | 58.17            | 53.20            |
+| Fixed $\sigma$ for every token | 59.04            | 54.17            |
+| Bell curve                     | 59.68            | 54.87            |
+| **Uniform**                    | 59.91            | 55.09            |
+</script></section><section  data-markdown><script type="text/template">
+## Dynamic Global Attention
+
+| Experiment Settings                | Testing F1 Score | Testing EM Score |
+| ---------------------------------- | ---------------- | ---------------- |
+| Dynamic Global Attention           | 70.47            | 65.09            |
+| Fixed window size (128) (Baseline) | 73.11            | 68.00            |
+
+* If the window size of a token is equal to the maximum window size (i.e. all values of bell curve are larger than the threshold), then perform global attention to that token.
+
+* The percentage of the tokens that was applied for global attention:
+    - Question tokens: 11.5%
+    - Document tokens: 1.0%
+    - Padding tokens: 0.3%
+</script></section><section  data-markdown><script type="text/template">
+## Another $\sigma$ Distribution Strategy
+
+- Previous method: Distribute the $\sigma$s among ALL tokens (global + normal + padding)
+
+- Current: Distribute the $\sigma$s among normal tokens (global tokens and padding tokens don't participate in the distribution)
+
+| Experiment Settings                  | Evaluation F1 Score | Testing F1 Score | Evaluation EM score | Testing EM Score |
+| ------------------------------------ | ------------------- | ---------------- | ------------------- | ---------------- |
+| Fixed window size (128) (Baseline)   | 72.92               | 73.11            | 67.82               | 68.00            |
+| Fixed $\sigma$ = 1000                | 72.74               | 73.10            | 67.81               | 68.21            |
+| Average $\sigma$ = 1000 (new method) | 72.91               | 72.63            | 67.82               | 67.78            |
+</script></section><section  data-markdown><script type="text/template">
+## Another $\sigma$ Distribution Strategy (In Progress)
+
+| Setting                               | Testing F1 Score | Testing EM Score |
+| ------------------------------------- | ---------------- | ---------------- |
+| avg. $\sigma$ = 100 (origin strategy) | 71.93            | 67.08            |
+| Fixed $\sigma$ = 100 (baseline)       | 72.07            | 67.13            |
+| **Current Strategy**                  | **In progress**  | **In progress**  |
+</script></section><section  data-markdown><script type="text/template">
+## To do
+
+- Use the new distribution strategy to perform stage 2.
+
+- Explore another way to add global attention.
+
+</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"c","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

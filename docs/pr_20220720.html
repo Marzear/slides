@@ -1,10 +1,21 @@
----
-title: 'Progress Report - 20220720'
-# titie: 'Seminar - '
-date: "2022-07-20"
-theme: theme/mytheme.css
-external_link: ""
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Progress Report - 20220720</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="_assets/theme/mytheme.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
 
 # Progress Report - 20220720 <!-- .element: class="title" -->
 ##  <!-- .element: class="subtitle" -->
@@ -13,20 +24,14 @@ external_link: ""
 2022.07.20 <br>
 Yu-Hung Wu @ IIS, Academia Sinica
 </div>
-
----
-
+</script></section><section  data-markdown><script type="text/template">
 ## Outline
 
 - New $\sigma$ Distribution Strategy on QA Task
 - Arxiv Summarization Task
-
----
-
+</script></section><section ><section data-markdown><script type="text/template">
 ## New $\sigma$ Distribution Strategy on QA Task <!-- .element: class="section-title" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## New $\sigma$ Distribution Strategy on QA Task - 1
 
 - Previous method: Distribute the $\sigma$s among ALL tokens (global + normal + padding)
@@ -38,9 +43,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | avg. $\sigma$ = 100 (origin strategy)    | **71.96**           | 71.93            | 66.95               | 67.08            |
 | Fixed $\sigma$ = 100 (baseline)          | 71.82               | **72.07**        | 66.85               | 67.13            |
 | *avg. $\sigma$ = 100 (current Strategy)* | **71.96**           | **72.07**        | **67.01**           | **67.17**        |
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## New $\sigma$ Distribution Strategy on QA Task - 2
 
 - Using the training results on the previous slide as the checkpoint of stage 2.
@@ -54,9 +57,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | *Current Strategy*                 | 72.54            | 67.68            |
 
 * Dynamic Global Attention: If the window size of a token is equal to the maximum window size (i.e. all values of bell curve are larger than the threshold), then perform global attention to that token.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## New $\sigma$ Distribution Strategy on QA Task - 3
 
 - Current strategy and baseline have similar training loss & validation loss.
@@ -64,21 +65,15 @@ Yu-Hung Wu @ IIS, Academia Sinica
 - The chart shows the standard deviation of $\sigma$.
 
 ![](attachments/2022-07-19-16-03-39.png)
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Todo
 
 - Apply the new distribution strategy to perform stage 2.
 
 - Try different experiment settings (i.e. different avg. $\sigma$ / threshold)
-
----
-
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## Arxiv Summarization Task <!-- .element: class="section-title" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Arxiv Summarization Task - 1
 
 - *Arxiv Summarization* is a dataset for summarization of long documents.
@@ -90,9 +85,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | Fixed window size (128) (Baseline) | 203,037             | 6038/299                       |
 | Dynamic Global Attention           | 6,436               | 5894/172                       |
 | *Current Strategy*                 | 6,440               | 5905/174                       |
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Arxiv Summarization Task - 2
 
 - Dataset example
@@ -104,17 +97,13 @@ Yu-Hung Wu @ IIS, Academia Sinica
 ```
 
 - The 90th percentile of document lengths is 14.5K tokens.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Arxiv Summarization Task - 3
 
 - Longformer: R-1 = 46.63, R-2 = 19.62, R-L = 41.83
 
 ![](attachments/2022-07-19-16-49-43.png) <!-- .element: class="img90" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Longformer-Encoder-Decoder (LED) - 1
 
 - LED has the exact same architecture with BART.
@@ -124,9 +113,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 - The encoder of LED uses the efficient local+global attention pattern of the Longformer.
 
 - The decoder of LED uses the full self-attention to the entire encoded tokens and to previously decoded locations.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Longformer-Encoder-Decoder (LED) - 2
 
 - Pretraining LED is expensive, but BART could only attends up to 1024 tokens.
@@ -134,9 +121,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 - we can initialize the new position embedding matrix of LED by repeatedly copying BART’s 1K position embeddings $n$ times.
 
 - All other part of the model is exactly the same as BART.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Longformer-Encoder-Decoder (LED) - 3
 
 | Attributes                  | LED-base | LED-large |
@@ -145,9 +130,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 | Encoder layers              | 6        | 12        |
 | Decoder layers              | 6        | 12        |
 | Attention window (official) | 1024     | 1024      |
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Arxiv Summarization on LED
 
 - Apply sliding window + global attention on LED encoder.
@@ -155,9 +138,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 - Only perform self-attention on ```<s>``` (the first token).
 
 - The goal is to predict the abstract of each document.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Arxiv Summarization on LED (LED-base)
 
 - GPUs = 4
@@ -167,9 +148,7 @@ Yu-Hung Wu @ IIS, Academia Sinica
 - Duration of an epoch = ~4h10min
 
 ![](attachments/2022-07-19-17-18-54.png) <!-- .element: class="img70" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Arxiv Summarization on LED (LED-large)
 
 - GPUs = 4
@@ -180,11 +159,60 @@ Yu-Hung Wu @ IIS, Academia Sinica
 - Gradient accumulation step = 5
 
 ![](attachments/2022-07-20-01-19-55.png) <!-- .element: class="img70" -->
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Todo
 
 - Apply our sliding window strategy to arxiv summarization task (LED-base).
   - Baseline: fixed $\sigma$
-  - Dynamic global attention
+  - Dynamic global attention</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"history":true,"center":true,"slideNumber":"c","pdfMaxPagesPerSlide":1,"pdfSeparateFragments":true,"pdfPageHeightOffset":-8,"transition":"none"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
